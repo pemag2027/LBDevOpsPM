@@ -1,5 +1,5 @@
 from unittest import TestCase
-from .calculator import nasobeni
+from calculator import nasobeni
 class TestMultiply(TestCase):
     def test_multiply_integers(self):
         self.assertEqual(nasobeni(2, 3), 6)
