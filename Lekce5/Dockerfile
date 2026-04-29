@@ -1,7 +1,7 @@
 FROM python:3.9-slim
-WORKDIR /app
-COPY app/calculator.py .
-COPY app/test_multiply.py .
+WORKDIR /Lekce5/app
+COPY Lekce5/app/calculator.py .
+COPY Lekce5/app/test_multiply.py .
 RUN python -m unittest test_multiply.py -v
 CMD ["python", "calculator.py"]
 
