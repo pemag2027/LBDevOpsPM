@@ -1,4 +1,4 @@
-from .app import nasobeni
+from app import nasobeni
 
 __all__ = ['nasobeni']
 __version__ = '0.1.0'
