@@ -65,8 +65,6 @@ jobs:
 
         echo "🐳 Buildování Docker image..."
 
-        pwd
-
         docker build -f "Lekce5/Dockerfile" -t calculator:latest .
 
         
