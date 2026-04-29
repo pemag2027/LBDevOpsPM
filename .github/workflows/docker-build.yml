@@ -65,9 +65,9 @@ jobs:
 
         echo "🐳 Buildování Docker image..."
 
-        docker build -t \$:latest .
+        docker build -t calculator:latest .
 
-        docker build -t \$:\$ .
+        
 
     
 
@@ -77,7 +77,7 @@ jobs:
 
         echo "🚀 Testování Docker kontejneru..."
 
-        docker run --rm \$:latest
+        docker run --rm calculator:latest
 
     
 
@@ -87,4 +87,4 @@ jobs:
 
         echo "📋 Seznam vytvořených images:"
 
-        docker images | grep \$
+        docker images | grep calculator
