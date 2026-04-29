@@ -49,7 +49,7 @@ jobs:
 
         echo "🧪 Spouštění unit testů..."
 
-        python -m unittest app/test_multiply.py -v
+        python3 -m unittest test_multiply.py -v
 
     
 
