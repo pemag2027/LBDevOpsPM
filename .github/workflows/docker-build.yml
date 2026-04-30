@@ -1,90 +1,129 @@
 name: Docker Build and Test
 
-
 on:
-
   push:
-
     branches: [ main, master ]
-
   pull_request:
-
     branches: [ main, master ]
-
 
 env:
-
   IMAGE_NAME: calculator
 
-
 jobs:
-
   build-and-test:
-
     runs-on: ubuntu-latest
-
-    
+   
 
     steps:
-
     - name: Checkout repository
-
       uses: actions/checkout@v4
-
-    
+   
 
     - name: Set up Python
-
       uses: actions/setup-python@v4
-
       with:
-
         python-version: '3.9'
-
-    
+   
 
     - name: Run unit tests
-
       run: |
 
         echo "🧪 Spouštění unit testů..."
-
         python -m unittest "Lekce5/app/test_multiply.py" -v
-
-    
+   
 
     - name: Set up Docker Buildx
-
       uses: docker/setup-buildx-action@v3
-
-    
+   
 
     - name: Build Docker image
-
       run: |
-
         echo "🐳 Buildování Docker image..."
-
         docker build -f "Lekce5/Dockerfile" -t calculator:latest .
-
-        
-
-    
+      
+  
 
     - name: Test Docker container
-
       run: |
-
         echo "🚀 Testování Docker kontejneru..."
-
         docker run --rm calculator:latest
-
-    
+   
 
     - name: List Docker images
-
       run: |
 
         echo "📋 Seznam vytvořených images:"
 
         docker images | grep calculator
+
+
+jobs:
+
+    deploy-to-ecr:
+      needs: build-and-test
+      runs-on: ubuntu-latest
+      if: github.ref == 'refs/heads/main'
+    
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+ 
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+        aws-access-key-id: \$
+        aws-secret-access-key: \$
+        aws-region: eu-central-1
+  
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.5.0
+   
+
+    - name: Terraform Init
+      working-directory: ./terraform
+      run: terraform init
+   
+
+    - name: Terraform Plan
+      working-directory: ./terraform
+      run: terraform plan
+   
+
+    - name: Terraform Apply
+      working-directory: ./terraform
+      run: terraform apply -auto-approve
+   
+
+    - name: Get ECR repository URL
+      id: ecr-url
+      working-directory: ./terraform
+      run: |
+        ECR_URL=\$(terraform output -raw ecr_repository_url)
+        echo "ecr_url=\$ECR_URL" >> \$GITHUB_OUTPUT
+   
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+   
+
+    - name: Build and push Docker image to ECR
+      run: |
+        ECR_URL=\$
+        docker build -t \$ECR_URL:latest .
+        docker build -t \$ECR_URL:\$ .
+      
+
+        echo "🚀 Pushing images to ECR..."
+        docker push \$ECR_URL:latest
+        docker push \$ECR_URL:\$
+      
+
+        echo "✅ Images pushed successfully!"
+
+        echo "Repository URL: \$ECR_URL"    
