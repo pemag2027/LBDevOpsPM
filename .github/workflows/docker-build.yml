@@ -10,7 +10,7 @@ env:
   IMAGE_NAME: calculator
 
 jobs:
-  build-and-test:
+  "build-and-test":
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -38,7 +38,7 @@ jobs:
         echo "📋 Seznam vytvořených images:"
         docker images | grep calculator
   
-  deploy-to-ecr:
+  "deploy-to-ecr":
       needs: build-and-test
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/main'
