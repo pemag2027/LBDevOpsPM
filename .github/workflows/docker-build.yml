@@ -56,10 +56,7 @@ jobs:
 
         docker images | grep calculator
 
-
-jobs:
-
-    deploy-to-ecr:
+deploy-to-ecr:
       needs: build-and-test
       runs-on: ubuntu-latest
       if: github.ref == 'refs/heads/main'
