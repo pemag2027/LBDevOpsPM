@@ -14,7 +14,7 @@ on:
 
 env:
 
-  IMAGE_NAME: python-nasobeni
+  IMAGE_NAME: calculator
 
 
 jobs:
