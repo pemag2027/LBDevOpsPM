@@ -74,7 +74,7 @@ jobs:
       run: |
         ECR_URL=(terraform output -raw ecr_repository_url)
         echo "ecr_url=\$ECR_URL" >> \$GITHUB_OUTPUT
-        echo "ecr_url=\$ECR_URL"
+        echo $ECR_URL
    
     - name: Login to Amazon ECR
       id: login-ecr
