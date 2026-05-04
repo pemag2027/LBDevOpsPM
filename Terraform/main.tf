@@ -59,7 +59,7 @@ provider "aws" {
 # ECR IAM Policy
 
 resource "aws_iam_policy" "ecr_push_policy" {
-  name = "ecr-push-python_calculator}"
+  name = "ecr-push-${var.repository_name}"
 
   policy = jsonencode({
     Version = "2012-10-17",
