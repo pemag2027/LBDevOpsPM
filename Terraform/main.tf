@@ -95,4 +95,9 @@ resource "aws_iam_policy" "ecr_push_policy" {
 }
 
 
+resource "aws_iam_user_policy_attachment" "attach_ecr_policy_existing_user" {
+  user       = "pemag2027user"
+  policy_arn = aws_iam_policy.ecr_push_policy.arn
+}
+
 
