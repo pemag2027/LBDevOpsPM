@@ -85,7 +85,7 @@ jobs:
         ECR_URL="$(terraform output -raw ecr_repository_url)"
         echo "ecr_url=$ECR_URL" >> "$GITHUB_OUTPUT"
         
-        docker build -t "calculator:latest" .
+        docker build -f "Lekce5/Dockerfile" -t "calculator:latest" .
             
         echo "🚀 Pushing images to ECR..."
         docker push "calculator:latest"
