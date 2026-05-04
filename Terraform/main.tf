@@ -55,3 +55,47 @@ provider "aws" {
     ]
   })
 }
+
+# ECR IAM Policy
+
+resource "aws_iam_policy" "ecr_push_policy" {
+  name = "ecr-push-python_calculator}"
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid    = "ECRAuthToken",
+        Effect = "Allow",
+        Action = [
+          "ecr:GetAuthorizationToken"
+        ],
+        Resource = "*"
+      },
+     
+      {
+        Sid    = "ECRPushPullRepo",
+        Effect = "Allow",
+        Action = [
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:BatchGetImage",
+          "ecr:CompleteLayerUpload",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:InitiateLayerUpload",
+          "ecr:PutImage",
+          "ecr:UploadLayerPart",
+          "ecr:DescribeRepositories",
+          "ecr:ListImages"
+        ],
+        Resource = aws_ecr_repository.python_calculator.arn
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "attach_ecr_push" {
+  role       = aws_iam_role.github_actions_ecr_push.name
+  policy_arn = aws_iam_policy.ecr_push_policy.arn
+}
+
+
