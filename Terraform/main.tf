@@ -87,7 +87,8 @@ resource "aws_iam_policy" "ecr_push_policy" {
           "ecr:DescribeRepositories",
           "ecr:ListImages"
         ],
-        Resource = aws_ecr_repository.python_calculator.arn
+        #Resource = aws_ecr_repository.python_calculator.arn
+         Resource = "*"
       }
     ]
   })
