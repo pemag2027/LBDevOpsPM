@@ -93,9 +93,5 @@ resource "aws_iam_policy" "ecr_push_policy" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "attach_ecr_push" {
-  role       = aws_iam_role.github_actions_ecr_push.name
-  policy_arn = aws_iam_policy.ecr_push_policy.arn
-}
 
 
